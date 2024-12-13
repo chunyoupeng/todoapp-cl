@@ -26,9 +26,8 @@
       (:div :class "todolist-wrapper"
 	    (:div :class "todolist-header"
 		  (:div :class "todolist-logo"
-			(:a :href "https://github.com/KikyTokamuro/todolist-cl" :target "_blank"
-			    (:span :class "todolist-logo-text" "todolist-cl")
-			    (version)))
+			(:span :class "todolist-logo-text" "todolist-cl")
+			(version))
 		  (:div :class "todolist-tools"
 			(:a :id "generate-csv" :href "/api/generate/csv"
 			    (:img :src "./static/images/csv.svg"))

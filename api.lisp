@@ -119,7 +119,7 @@
 
 (defun api-todos-export-csv ()
   "Export todos to csv"
-  (format nil "~{~{~A~^;~}~^~%~}"
+  (format nil "~{~{~A~^,~}~^~%~}"
 	  `(("id" "group" "status" "text" "date")
 	    ,@(mapcar #'(lambda (todo)
 			  (list (mito:object-id todo)
