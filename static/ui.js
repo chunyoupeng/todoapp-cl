@@ -14,9 +14,9 @@ export class TodolistUI {
                 $(".todolist-groups-wrapper")
                     .append(this.generateGroupElement(i));
             });
-	    console.log(data[0]["NAME"])
-            this.selectGroup("home");
-//	    this.selectGroup(data[0]["NAME"]);
+	    console.log(data)
+            this.selectGroup(data[0]["ID"]);
+	    //	    this.selectGroup(data[0]["NAME"]);
             // Select group event
             $(".todolist-wrapper")
                 .on("click", ".todolist-group-button span", 
@@ -256,8 +256,13 @@ export class TodolistUI {
         return `
             <div class="task-element">
                 <div class="task-element-text">
-                    <div class="task-element-text-todo">${text}</div>
-                </div>
+                    <span class="task-element-text-todo">${text}</span>
+               </div>
+<div>
+<span class="task-date">${date}</span>
+<span class="task-status">${status}</span>
+<div>
+     
             </div>
         `;
     };

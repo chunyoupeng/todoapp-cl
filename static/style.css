@@ -31,11 +31,13 @@ a {
      display: flex;
      dirrection: column;
  }
+ 
 .todolist-tools {
     font-size: 0.8rem;
     display: flex;
     align-items: center;
 }
+
 #generate-csv {
     margin: 3px;
     padding: 3px;
@@ -60,12 +62,21 @@ a {
     padding-right: 100px;
 }
 
+.todolist-group-button {
+    cursor: pointer;
+}
 .todolist-body {
     display: flex;
     flex-direction: column;
+    flex: 1;
     min-height: 60vh; /* 让容器至少和屏幕一样高 */
+    padding-right: 0;
 }
 
+.task-element {
+    display: flex;
+    justify-content: space-between;
+}
 .group-element-delete {
     display: none;
 }    
