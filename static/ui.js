@@ -4,29 +4,19 @@
 export class TodolistUI {
     constructor (api) {
         this.api = api;
-
-        // Enable dragabling
-        $(".column").sortable({
-            connectWith: ".column",
-            receive: (event) => this.dragable(event),
-            revert: true,
-            handle: ".task-element-text-info"
-        });
     };
 
-    /**
-     * Init UI
-     */
     init () {
         this.api.getGroupsList().done((data) => {
+	    console.log("Initing UI")
             data.forEach(i => {
                 // Draw all groups button
                 $(".todolist-groups-wrapper")
                     .append(this.generateGroupElement(i));
             });
-
-            this.selectGroup("all");
-    
+	    console.log(data[0]["NAME"])
+            this.selectGroup("home");
+//	    this.selectGroup(data[0]["NAME"]);
             // Select group event
             $(".todolist-wrapper")
                 .on("click", ".todolist-group-button span", 
@@ -61,11 +51,6 @@ export class TodolistUI {
         });
     };
 
-    /**
-     * Show error message
-     * 
-     * @param {string} err 
-     */
     showError(err) {
         // Show modal window
         $(".todolist-error-modal").dialog({
@@ -269,18 +254,9 @@ export class TodolistUI {
 
         // Return template
         return `
-            <div class="task-element" group="${group}" status="${status}" todo-id="${id}">
+            <div class="task-element">
                 <div class="task-element-text">
-                    <div class="task-element-text-info">${date} <div class="task-element-id">#${group}/${id}</div></div>
                     <div class="task-element-text-todo">${text}</div>
-                </div>
-                <div class="task-element-options">
-                    <div class="task-element-delete">
-                        <img src="./static/images/delete.svg">
-                    </div>
-                    <div class="task-element-edit">
-                        <img src="./static/images/pencil.svg">
-                    </div>
                 </div>
             </div>
         `;
@@ -319,37 +295,23 @@ export class TodolistUI {
      */
     drawTodos (group) {
         // Clear columns
-        $(".todolist-column-body").each((i, column) => {
+        $(".todolist-body").each((i, column) => {
             $(column).html("");
         });
 
-        if (group == "all") {
-            this.api.getAllTodos().done((data) => {
-                for (let todo of data) {
-                    $(`.todolist-column-body[status=${todo["STATUS-ID"]}]`)
-                        .append(this.generateTaskElement(
-                            todo["GROUP-ID"],
-                            todo["ID"],
-                            todo["STATUS-ID"],
-                            todo["DATE"],
-                            todo["TEXT"]
-                        ));
-                }
-            })
-        } else {
-            this.api.getTodosByGroup(group).done((data) => {
-                for (let todo of data) {
-                    $(`.todolist-column-body[status=${todo["STATUS-ID"]}]`)
-                        .append(this.generateTaskElement(
-                            todo["GROUP-ID"],
-                            todo["ID"],
-                            todo["STATUS-ID"],
-                            todo["DATE"],
-                            todo["TEXT"]
-                        ));
-                }
-            });
-        }
+        this.api.getTodosByGroup(group).done((data) => {
+            for (let todo of data) {
+                $(`.todolist-body`)
+                    .append(this.generateTaskElement(
+                        todo["GROUP-ID"],
+                        todo["ID"],
+                        todo["STATUS-ID"],
+                        todo["DATE"],
+                        todo["TEXT"]
+                    ));
+            }
+        });
+
     };
 
     /**
@@ -490,23 +452,4 @@ export class TodolistUI {
         });
     };
 
-    // Dragable event handler
-    dragable (event) {
-        const element = $(event.originalEvent.target)
-            .closest(".task-element");
-        const newStatus = $(event.target).attr("status");
-        
-        this.api.changeTodoStatus(
-            element.attr("group"),
-            element.attr("todo-id"),
-            newStatus
-        ).done((data) => {
-            if (data.ERROR == undefined) {
-                // Change status on element
-                $(element).attr("status", newStatus);
-            } else {
-                this.showError(data.ERROR);
-            }
-        });
-    };
 }

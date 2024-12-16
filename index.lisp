@@ -26,25 +26,22 @@
       (:div :class "todolist-wrapper"
 	    (:div :class "todolist-header"
 		  (:div :class "todolist-logo"
-			(:span :class "todolist-logo-text" "todolist-cl")
+			(:span :class "todolist-logo-text" "Todolist ")
 			(version))
-		  (:div :class "todolist-tools"
-			(:a :id "generate-csv" :href "/api/generate/csv"
-			    (:img :src "./static/images/csv.svg"))
-			(:div :id "statistics"
-			      (:img :src "./static/images/stats.svg"))))
-	    (:div :class "todolist-groups-wrapper"
-		  (:div :class "todolist-group-button" :group "all"
-			(:span "all")))
-	    (:div :class "todolist-search-wrapper"
-		  (:input :type "text" :id "search-input" :placeholder "Insert search filter"))
-	    (:div :class "todolist-body"
-		  (dolist (status (mito:retrieve-dao 'statuses))
-		    (:div :class "todolist-column"
-			  (:div :class "todolist-column-title" (statuses-name status))
-			  (:div :class "column todolist-column-body" :status (mito:object-id status)))))
-	    (:div :class "todolist-create-button"
-		  (:img :src "./static/images/pencil.svg")))
+		  (:div :class "tools"
+			(:div :class "todolist-tools"
+			      (:a :id "generate-csv" :href "/api/generate/csv"
+				  (:span "CSV"))
+			      (:div :id "statistics"
+				    (:span "Data")))
+			(:div :class "todolist-search-wrapper"
+			      (:input :type "text" :id "search-input" :placeholder "请输入关键词"))))
+	    (:div :class "todolist-container"
+		  (:div :class "todolist-groups-wrapper")
+		  (:div :class "todolist-body"))
+	    (:footer :class "task-footer"
+		     (:div :class "todolist-create-button"
+			   (:img :src "./static/images/pencil.svg"))))
       (:div :class "todolist-create-task-modal" :style "display:none" :title "New task"
 	    (:div :class "todolist-task-editor")
 	    (:div :class "todolist-input-wrapper"
