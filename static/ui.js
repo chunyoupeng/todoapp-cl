@@ -140,7 +140,7 @@ export class TodolistUI {
                         .append(this.generateTaskElement(
                             data["GROUP-ID"],
                             data["ID"],
-                            data["STATUS-ID"],
+                            data["STATUS-TEXT"],
                             data["DATE"],
                             data["TEXT"]
                         ));
@@ -248,10 +248,9 @@ export class TodolistUI {
      * @param   {string} text 
      * @returns {string}
      */
-    generateTaskElement (group, id, status, date, text) {
+    generateTaskElement (group, id, statusText, date, text) {
         // Remove html tags from text
         text = $("<div>").html(text).text();
-
         // Return template
         return `
             <div class="task-element">
@@ -260,7 +259,7 @@ export class TodolistUI {
                </div>
 <div>
 <span class="task-date">${date}</span>
-<span class="task-status">${status}</span>
+<span class="task-status">${statusText}</span>
 <div>
      
             </div>
@@ -310,7 +309,7 @@ export class TodolistUI {
                     .append(this.generateTaskElement(
                         todo["GROUP-ID"],
                         todo["ID"],
-                        todo["STATUS-ID"],
+                        todo["STATUS-NAME"],
                         todo["DATE"],
                         todo["TEXT"]
                     ));
@@ -423,7 +422,7 @@ export class TodolistUI {
                                             const newElement = $this.generateTaskElement(
                                                 data["GROUP-ID"],
                                                 data["ID"],
-                                                data["STATUS-ID"],
+                                                data["SATUS-NAME"],
                                                 data["DATE"],
                                                 data["TEXT"]
                                             );

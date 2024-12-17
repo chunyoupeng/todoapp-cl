@@ -24,12 +24,9 @@ export class TodolistAPI {
             group: group
         }, 'json');
     }
+    
 
-    /**
-     * Get all todos
-     * 
-     * @returns jqXHR
-     */
+
     getAllTodos () {
         return $.get('/api/todos/all', {}, 'json');
     }

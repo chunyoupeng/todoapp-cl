@@ -30,10 +30,10 @@
 					      :format local-time:+asctime-format+)))
   (api-todos-export-csv))
 
-
 ;;; Get list of groups
 (json-router (:name api-group-list-handler :uri "/api/group/list")
   (api-group-list))
+
 
 ;;; Delete group
 (json-router (:name api-group-delete-handler :uri "/api/group/delete" :request-type :post)
