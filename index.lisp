@@ -41,7 +41,8 @@
 		  (:div :class "todolist-body"))
 	    (:footer :class "task-footer"
 		     (:div :class "todolist-create-button"
-			   (:img :src "./static/images/pencil.svg"))))
+			   (:img :src "./static/images/pencil.svg")
+			   (:span :class "add-todo" "代办"))))
       (:div :class "todolist-create-task-modal" :style "display:none" :title "New task"
 	    (:div :class "todolist-task-editor")
 	    (:div :class "todolist-input-wrapper"

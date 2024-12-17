@@ -81,16 +81,50 @@ a {
     display: none;
 }    
 
-.todolist-create-button {
-    width: 50px;
-    border-radius: 3px;
+/* .todolist-create-button { */
+/*     width: 50px; */
+/*     border-radius: 3px; */
+/* } */
+.task-footer {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
 }
-.todolist-create-button img {
-    boder-radius: 5px;
-    background-color: red;
-    width: 1.5rem;
-    border-radius: 60px;
+
+/* Button container */
+.todolist-create-button {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 8px 12px;
+    background-color: #4CAF50; /* Beautiful green */
+    color: white;
+    border-radius: 8px;
     cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.todolist-create-button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+/* Image style */
+.todolist-create-button img {
+    width: 16px;
+    height: 16px;
+}
+
+/* Text span style */
+.add-todo {
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
 }
 .task-footer {
     padding: 5px 5px;

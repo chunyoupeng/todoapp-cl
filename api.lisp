@@ -18,6 +18,11 @@
 	  :text (todos-text todo)
 	  :date (local-time:format-timestring nil (mito:object-updated-at todo)
 					      :format local-time:+asctime-format+))))
+(defun api-status-list ()
+  "Return list of statuses"
+  (jonathan:to-json (mapcar #'(lambda (status)
+				(list :id (mito:object-id status) :name (statuses-name status)))
+			    (mito:select-dao 'statuses))))
 
 (defun api-group-list ()
   "Return list of groups"

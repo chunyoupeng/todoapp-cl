@@ -30,6 +30,11 @@
 					      :format local-time:+asctime-format+)))
   (api-todos-export-csv))
 
+;;; Get list of statuses
+(json-router (:name api-statuses-list-handler :uri "/api/statuses")
+  (api-status-list))
+
+
 ;;; Get list of groups
 (json-router (:name api-group-list-handler :uri "/api/group/list")
   (api-group-list))
