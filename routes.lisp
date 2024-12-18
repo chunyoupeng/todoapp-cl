@@ -39,6 +39,10 @@
 (json-router (:name api-group-list-handler :uri "/api/group/list")
   (api-group-list))
 
+;;; Change the group name
+(json-router (:name api-group-change-handler :uri "/api/group/change" :request-type :post)
+  (api-change-group (hunchentoot:post-parameter "oldGroupName") 
+		    (hunchentoot:post-parameter "newGroupName")))
 
 ;;; Delete group
 (json-router (:name api-group-delete-handler :uri "/api/group/delete" :request-type :post)

@@ -19,9 +19,28 @@ export class TodolistUI {
 	    //	    this.selectGroup(data[0]["NAME"]);
             // Select group event
             $(".todolist-wrapper")
-                .on("click", ".todolist-group-button span", 
+                .on("click", ".todolist-group-button .group-name", 
                     (event) => this.selectGroupClick(event));
+	    $(".todolist-groups-wrapper")
+		.on("click", ".todolist-group-button .group-element-tool .edit",
+		    (event) => this.editGroup(event))
+	    
+	    $(".todolist-body").on('change', '.task-status', (event) => {
+		// 获取新状态
+		const newStatus = $(event.target).val();
 
+		// 找到包含 data 属性的父元素 .task-element
+		const $taskElement = $(event.target).closest('.task-element');
+
+		// 获取 data-group 和 data-id 的值
+		const groupId = $taskElement.data('group');
+		const todoId  = $taskElement.data('id');
+
+		// 调用更新函数并传入 groupId, todoId, newStatus
+		this.updateTaskStatus(groupId, todoId, newStatus);
+	    });
+
+		    
             // Delete group event
             $(".todolist-wrapper")
                 .on("click", ".group-element-delete", 
@@ -114,6 +133,21 @@ export class TodolistUI {
                 quill.root.innerHTML = "";
             }
         });
+    }
+
+    editGroup(event) {
+	const $groupButton = $(event.currentTarget).closest('.todolist-group-button');
+	// 2. 获取该分组的原始名称
+	const oldGroupName = $groupButton.find('.group-name').text().trim();
+	const newGroupName = prompt("请输入新的分组名称：", oldGroupName);
+	this.api.changeGroupName(oldGroupName, newGroupName);
+    }
+    
+    updateTaskStatus (groupId, todoId, newStatus) {
+	const statusList = ['TODO', 'DOING', 'DONE'];
+	let statusId = statusList.indexOf(newStatus) + 1;
+	this.api.changeTodoStatus(groupId, todoId, statusId);
+	console.log(newStatus);
     }
 
     /**
@@ -248,23 +282,35 @@ export class TodolistUI {
      * @param   {string} text 
      * @returns {string}
      */
-    generateTaskElement (group, id, statusText, date, text) {
-        // Remove html tags from text
-        text = $("<div>").html(text).text();
-        // Return template
-        return `
-            <div class="task-element">
-                <div class="task-element-text">
-                    <span class="task-element-text-todo">${text}</span>
-               </div>
-<div>
-<span class="task-date">${date}</span>
-<span class="task-status">${statusText}</span>
-<div>
-     
+generateTaskElement (group, id, statusText, date, text) {
+    // 要使用的状态列表
+    const statusList = ['TODO', 'DOING', 'DONE'];
+    
+    // 移除文本中的HTML标签
+    text = $("<div>").html(text).text();
+
+    // 使用map生成状态下拉菜单选项
+    const statusOptions = statusList.map(status => {
+        const selected = (status === statusText) ? ' selected' : '';
+        return `<option class="${status}" value="${status}"${selected}>${status}</option>`;
+    }).join('');
+
+    // 返回模板字符串
+    return `
+        <div class="task-element" data-group="${group}" data-id="${id}">
+            <div class="task-element-text">
+                <span class="task-element-text-todo">${text}</span>
             </div>
-        `;
-    };
+            <div>
+                <span class="task-date">${date}</span>
+                <select class="task-status">
+                    ${statusOptions}
+                </select>
+            </div>
+        </div>
+    `;
+}
+
 
     /**
      * Generate html for group button 
@@ -275,9 +321,10 @@ export class TodolistUI {
     generateGroupElement (taskGroup) {
         return `
             <div class="todolist-group-button" group="${taskGroup.ID}" style="background: rgba(255, 255, 255);">
-                <span>${taskGroup.NAME}</span>
-                <div class="group-element-delete">
-                    <img src="./static/images/delete.svg">
+                <div class="group-name">${taskGroup.NAME}</div>
+                <div class="group-element-tool">
+                    <img class="edit" src="./static/images/pencil.svg">
+                    <img class="delete" src="./static/images/delete.svg">
                 </div>
             </div>
         `

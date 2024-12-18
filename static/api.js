@@ -13,6 +13,11 @@ export class TodolistAPI {
         return $.get('/api/group/list', {}, 'json');
     }
 
+    getStatusList () {
+        return $.get('/api/statuses', {}, 'json');
+    }
+
+
     /**
      * Delete group by name
      * 
@@ -25,7 +30,12 @@ export class TodolistAPI {
         }, 'json');
     }
     
-
+    changeGroupName(oldGroupName, newGroupName) {
+	return $.post('/api/group/change', {
+	    oldGroupName: oldGroupName,
+	    newGroupName: newGroupName
+	})
+    }
 
     getAllTodos () {
         return $.get('/api/todos/all', {}, 'json');

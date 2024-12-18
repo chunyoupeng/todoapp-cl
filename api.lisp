@@ -72,6 +72,14 @@
 		 (mito:save-dao todo)
 		 (jonathan:to-json (todo-to-list todo))))))))
 
+(defun api-change-group (old-group-name new-group-name)
+  "Change the group name"
+  (let ((group (mito:find-dao 'groups :name old-group-name)))
+    (progn
+      (setf (slot-value group 'name) new-group-name)
+      (mito:save-dao group)
+      (jonathan:to-json (list :new-group-name new-group-name)))))
+
 (defun api-todos-change-status (group-id todo-id status-id)
   "Change todo status"
   (cond ((null (and group-id todo-id status-id))

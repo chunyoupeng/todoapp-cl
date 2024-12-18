@@ -26,10 +26,9 @@ a {
     border-bottom: 1px solid #999;
 }
 
-}
  .tools {
      display: flex;
-     dirrection: column;
+     direction: column;
  }
  
 .todolist-tools {
@@ -53,18 +52,34 @@ a {
 .todolist-container {
     display: flex;
 }
+
+/* Group button style */
 .todolist-groups-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-right: 1rem;
     border-right: 1px solid #999;
-    padding-right: 100px;
+    padding-right: 10px;
 }
 
 .todolist-group-button {
     cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    min-width:150px;
 }
+
+.group-element-tool {
+    display: flex;
+    align-items: center;
+}
+
+.group-element-tool img:hover {
+    border: 2px solid #ccc; /* Change thickness and color as needed */
+    transform: scale(1.5)
+}
+
+/* Tasks style */
 .todolist-body {
     display: flex;
     flex-direction: column;
@@ -73,18 +88,63 @@ a {
     padding-right: 0;
 }
 
+
+
 .task-element {
     display: flex;
     justify-content: space-between;
+    background: #fff;
+    border-radius: 8px;
+    align-items: center;
+    padding: 2px;
+    margin-bottom: 2px;
+    transition: box-shadow 0.3s ease;
+    max-width: 800px;
 }
-.group-element-delete {
-    display: none;
-}    
 
-/* .todolist-create-button { */
-/*     width: 50px; */
-/*     border-radius: 3px; */
-/* } */
+.task-element:hover {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.task-element-text {
+    font-size: 16px;
+    color: #333;
+}
+
+
+.task-date, .task-status {
+    font-size: 14px;
+    color: #666;
+}
+
+.task-date {
+    margin-right: 8px;
+}
+
+.task-status {
+    margin-left: 8px;
+}
+
+/* 下拉菜单的样式 */
+.task-status {
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 14px;
+    color: black;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+    outline: none;
+}
+
+.task-status:focus {
+    border-color: #66afe9;
+    box-shadow: 0 0 5px rgba(102,175,233,0.5);
+}
+
+
+
+
 .task-footer {
     display: flex;
     align-items: center;
@@ -130,3 +190,4 @@ a {
     padding: 5px 5px;
     border-top: 1px solid #999;
 }
+
