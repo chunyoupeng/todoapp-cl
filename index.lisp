@@ -16,11 +16,9 @@
       (:link :rel "stylesheet" :href "./static/style.css")
       (:link :rel "stylesheet" :href "./static/libs/jquery-ui.css")
       (:link :rel "stylesheet" :href "./static/libs/liner-bar.css")
-      (:link :rel "stylesheet" :href "./static/libs/quill.snow.min.css")
       (:link :rel "icon" :type "image/x-icon" :href "./static/images/favicon.ico")
       (:script :src "./static/libs/jquery.min.js")
       (:script :src "./static/libs/jquery-ui.min.js")
-      (:script :src "./static/libs/quill.min.js")
       (:script :src "./static/libs/liner-bar.js"))
      (:body
       (:div :class "todolist-wrapper"
