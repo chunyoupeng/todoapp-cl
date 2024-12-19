@@ -4,6 +4,7 @@
 export class TodolistUI {
     constructor (api) {
         this.api = api;
+	this.currentGroup = "work";
     };
 
     init () {
@@ -92,57 +93,6 @@ export class TodolistUI {
 	console.log(newGroupName);
 	this.api.addGroupName(newGroupName);
     }
-    /**
-     * Show create task modal window
-     */
-    showCreateTask() {
-        // Remove old toolbar
-        $(".todolist-create-task-modal .ql-toolbar").remove();
-
-        // Setup quill editor
-        const quill = new Quill(".todolist-create-task-modal .todolist-task-editor", {
-            theme: 'snow'
-        });  
-
-        const groupsVariants = $(".todolist-group-button")
-            .toArray()
-            .map((group) => $(group).find("span").text())
-            .filter((group) => group != "all");
-
-        // Hack for normal show autocomplete (FIXME)
-        $("input#task-group").click(function() {
-            $(this).closest('.ui-dialog')
-                .css('z-index', 101)
-        });
-
-        // Group input autocomplete
-        $("input#task-group").autocomplete({
-            source: groupsVariants,
-            open: function(event, ui) {
-                const zIndex = parseInt($(this).closest('.ui-dialog').css('z-index'), 10);
-                $('.ui-autocomplete').css('z-index', zIndex + 1);
-            }
-        });
-
-        // Create todo event
-        $(".todolist-create-task-modal")
-            .off("click", ".send-task-button")
-            .on("click", ".send-task-button", () => {
-                this.createTodo(quill)
-            });
-
-        // Show modal window
-        $(".todolist-create-task-modal").dialog({
-            height: window.innerHeight / 2,
-            width: window.innerWidth / 2,
-            modal: true,
-            close: function( event, ui ) {
-                // Clear inputs
-                $("#task-group").val("");
-                quill.root.innerHTML = "";
-            }
-        });
-    }
 
     editGroup(event) {
 	const $groupButton = $(event.currentTarget).closest('.todolist-group-button');
@@ -159,53 +109,7 @@ export class TodolistUI {
 	console.log(newStatus);
     }
 
-    /**
-     * Create new todo
-     *  
-     * @param {Quill} quill 
-     */
-    createTodo (quill) {
-        const taskText = quill.root.innerHTML;
-        const taskGroup = $("#task-group").val().trim()
 
-        if (taskText == "" || taskGroup == "") {
-            this.showError("The task or its group cannot be empty");
-            return;
-        }
-
-        const currentGroup = $(`.todolist-group-button[style="background: rgba(0, 0, 0, 0.1);"]`)
-            .attr("group");
-
-        this.api.createNewTodo(taskGroup, taskText).done((data) => {
-            if (data.ERROR == undefined) {
-                if (["all", data["GROUP-ID"].toString()].includes(currentGroup)) {
-                    $(`.todolist-column-body[status=${data["STATUS-ID"]}]`)
-                        .append(this.generateTaskElement(
-                            data["GROUP-ID"],
-                            data["ID"],
-                            data["STATUS-TEXT"],
-                            data["DATE"],
-                            data["TEXT"]
-                        ));
-                }
-
-                if ($(`.todolist-group-button[group="${data["GROUP-ID"]}"]`).length == 0) {
-                    // Append new group
-                    $(".todolist-groups-wrapper")
-                        .append(this.generateGroupElement({
-                            ID:   data["GROUP-ID"],
-                            NAME: data["GROUP-NAME"]
-                        }));
-                    $(`.todolist-group-button[group="${data["GROUP-ID"]}"] span`).click();
-                }
-
-                // Close modal
-                $(".todolist-create-task-modal").dialog("close");
-            } else {
-                this.showError(data.ERROR);
-            }
-        });
-    };
 
     /**
      * Show statistics modal window
@@ -393,6 +297,7 @@ generateTaskElement (group, id, statusText, date, text) {
     selectGroupClick (event) {
         const groupElement = $(event.target).closest(".todolist-group-button");
         const group = $(groupElement).attr("group");
+	this.currentGroup = group;
         this.selectGroup(group);
     };
 
@@ -434,71 +339,6 @@ generateTaskElement (group, id, statusText, date, text) {
         });
     };
 
-    /**
-     * Open edit window for todo
-     * 
-     * @param {Event} event 
-     */
-    editTodo (event) {
-        const todoElement = $(event.target).closest(".task-element");
-        const groupId = $(todoElement).attr("group");
-        const todoId = $(todoElement).attr("todo-id");
-        const $this = this;
-
-        this.api.getTodoByGroupAndId(groupId, todoId).done((data) => {
-            if (data.ERROR == undefined) {
-                // Remove old toolbar
-                $(".todolist-edit-task-modal .ql-toolbar").remove();
-
-                // Setup quill editor
-                const quill = new Quill(".todolist-edit-task-modal .todolist-task-editor", {
-                    theme: 'snow'
-                }); 
-                quill.root.innerHTML = data["TEXT"];
-
-                // Show modal window
-                $(".todolist-edit-task-modal").dialog({
-                    height: window.innerHeight / 2,
-                    width: window.innerWidth / 2,
-                    modal: true,
-                    close: function( event, ui ) {
-                        // Clear inputs
-                        $("#task-group").val("");
-                        quill.root.innerHTML = "";
-                    },
-                    open: function ( event, ui ) {
-                        // Save changes event
-                        $(".todolist-edit-task-modal")
-                            .off("click", ".edit-task-button")
-                            .on("click", ".edit-task-button", () => {
-                                $this.api.changeTodoText(groupId, todoId, quill.root.innerHTML)
-                                    .done((data) => {
-                                        if (data.ERROR == undefined) {
-                                            // Generate new html
-                                            const newElement = $this.generateTaskElement(
-                                                data["GROUP-ID"],
-                                                data["ID"],
-                                                data["SATUS-NAME"],
-                                                data["DATE"],
-                                                data["TEXT"]
-                                            );
-                                            // Replace old task
-                                            $(`.task-element[todo-id="${todoId}"][group="${groupId}"]`)
-                                                .replaceWith(newElement);
-                                            // Close modal
-                                            $(".todolist-edit-task-modal").dialog("close");
-                                        } else {
-                                            this.showError(data.ERROR);
-                                        }
-                                    });
-                            });
-                    }
-                });
-            } else {
-                this.showError(data.ERROR);
-            }
-        });
-    };
 
     /**
      * Search event handler

@@ -12,7 +12,6 @@
     (:doctype)
     (:html
      (:head
-      (:meta :http-equiv "refresh" :content "30")
       (:title "todolist")
       (:link :rel "stylesheet" :href "./static/style.css")
       (:link :rel "stylesheet" :href "./static/libs/jquery-ui.css")
@@ -48,12 +47,7 @@
 			   (:img :src "./static/images/pencil.svg")
 			   (:span :class "add-group" "分类"))))
       (:div :class "todolist-create-task-modal" :style "display:none" :title "New task"
-	    (:div :class "todolist-task-editor")
-	    (:div :class "todolist-input-wrapper"
-		  (:input :type "text" :id "task-group" :placeholder "Insert task group")
-		  (:div :class "send-task-button"
-			(:img :src "./static/images/send.svg")
-			"Create")))
+	    (:div :class "todolist-task-editor"))
       (:div :class "todolist-edit-task-modal" :style "display:none" :title "Edit task"
 	    (:div :class "todolist-task-editor")
 	    (:div :class "edit-task-button"
