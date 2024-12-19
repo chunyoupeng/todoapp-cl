@@ -36,6 +36,12 @@
   (mito:delete-by-values 'todos :group-id group-id)
   (jonathan:to-json '(:group group-name)))
 
+(defun api-group-add (group-name)
+  "Add a new group and return the newly created group's JSON data."
+  (let ((new-group (mito:create-dao 'groups :name group-name)))
+    (jonathan:to-json (list :id (mito:object-id new-group)
+			    :name (groups-name new-group)))))
+
 (defun api-todos-all ()
   "Return all todos"
   (jonathan:to-json

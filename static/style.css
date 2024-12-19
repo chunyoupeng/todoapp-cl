@@ -7,7 +7,7 @@
 body {
     line-height: 1.5;
     margin: 20px;
-    color: #333;
+    color: #4389;
 }
 
 a {
@@ -143,12 +143,12 @@ a {
 }
 
 
-
-
+/* footer for adding todo and groups */
 .task-footer {
     display: flex;
     align-items: center;
     padding: 10px;
+    gap:5px;
     background-color: #f9f9f9;
     border-top: 1px solid #ddd;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
@@ -156,7 +156,7 @@ a {
 }
 
 /* Button container */
-.todolist-create-button {
+.todolist-create-button, .group-create-button {
     display: flex;
     align-items: center;
     gap: 3px;
@@ -169,25 +169,20 @@ a {
     transition: all 0.3s ease;
 }
 
-.todolist-create-button:hover {
+.todolist-create-button:hover, .group-create-button:hover {
     background-color: #45a049;
     transform: scale(1.05);
 }
 
 /* Image style */
-.todolist-create-button img {
+.task-footer img {
     width: 16px;
     height: 16px;
 }
 
 /* Text span style */
-.add-todo {
+.add-todo, .add-group {
     font-size: 14px;
     font-weight: bold;
     color: white;
 }
-.task-footer {
-    padding: 5px 5px;
-    border-top: 1px solid #999;
-}
-

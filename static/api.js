@@ -34,7 +34,13 @@ export class TodolistAPI {
 	return $.post('/api/group/change', {
 	    oldGroupName: oldGroupName,
 	    newGroupName: newGroupName
-	})
+	}, 'json')
+    }
+    
+    addGroupName(groupName) {
+	return $.post('/api/group/add', {
+	    groupName: groupName
+	}, 'json')
     }
 
     getAllTodos () {

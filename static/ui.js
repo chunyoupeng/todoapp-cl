@@ -59,6 +59,9 @@ export class TodolistUI {
             // Create new task event
             $(".todolist-create-button")
                 .click(() => this.showCreateTask());
+	    
+            $(".group-create-button")
+                .click(() => this.createGroup());
 
             // Search event
             $("#search-input")
@@ -82,7 +85,13 @@ export class TodolistUI {
             }
         });
     }
-
+    
+    createGroup() {
+	let groupName = ""
+	const newGroupName = prompt("请输入你想添加的分组名称：");
+	console.log(newGroupName);
+	this.api.addGroupName(newGroupName);
+    }
     /**
      * Show create task modal window
      */

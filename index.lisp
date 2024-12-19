@@ -12,6 +12,7 @@
     (:doctype)
     (:html
      (:head
+      (:meta :http-equiv "refresh" :content "30")
       (:title "todolist")
       (:link :rel "stylesheet" :href "./static/style.css")
       (:link :rel "stylesheet" :href "./static/libs/jquery-ui.css")
@@ -42,7 +43,10 @@
 	    (:footer :class "task-footer"
 		     (:div :class "todolist-create-button"
 			   (:img :src "./static/images/pencil.svg")
-			   (:span :class "add-todo" "代办"))))
+			   (:span :class "add-todo" "代办"))
+		     (:div :class "group-create-button"
+			   (:img :src "./static/images/pencil.svg")
+			   (:span :class "add-group" "分类"))))
       (:div :class "todolist-create-task-modal" :style "display:none" :title "New task"
 	    (:div :class "todolist-task-editor")
 	    (:div :class "todolist-input-wrapper"
